@@ -1,0 +1,70 @@
+.title {
+    
+    padding: 40px 0 0 10%;
+}
+
+.hero_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px 10% 100px 10%;
+    gap: 40Px;
+
+    position: relative;
+}
+
+.hero_cav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgb(221, 216, 226);
+    border-radius: 12px;
+}
+
+.card_grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    column-gap: 10px;
+    row-gap: 10px;
+    list-style-type: none;
+}
+
+.hero_cav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgb(221, 216, 226);
+    border-radius: 12px;
+}
+
+.hero_hist {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(221, 216, 226);
+    width: 100%;
+    min-height: fit-content;
+    border-radius: 12px;
+}
+
+.display_none {
+    display: none;
+}
+
+.historico_cav {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.hist_item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+    /* border: 1px solid red; */
+    border-bottom: 1px solid rgb(163, 158, 158);
+}

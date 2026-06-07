@@ -1,0 +1,12 @@
+.error{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height:75vh;
+}
+.error_404{
+    color: #BDA21C;
+    font-size: 84px;
+}
