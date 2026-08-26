@@ -1,0 +1,130 @@
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: calc(100dvh - 140px);
+  display: flex;
+  flex-direction: column;
+}
+
+.header_actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.btn_back {
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.btn_back:hover {
+  color: #CAAD17;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #161616;
+  letter-spacing: -0.5px;
+}
+
+.card_form {
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card_form h2 {
+  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input_group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.input_group input,
+.input_group select {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input_group input:focus,
+.input_group select:focus {
+  border-color: #CAAD17;
+  box-shadow: 0 0 0 3px rgba(202, 173, 23, 0.2);
+}
+
+.btn_submit {
+  margin-top: 12px;
+  padding: 14px;
+  background-color: #CAAD17;
+  color: #121212;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn_submit:hover:not(:disabled) {
+  background-color: #d8ba1c;
+  transform: translateY(-1px);
+}
+
+.btn_submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error_banner {
+  background-color: rgba(202, 42, 48, 0.15);
+  border: 1px solid #CA2A30;
+  color: #f87171;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

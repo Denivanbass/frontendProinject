@@ -1,0 +1,197 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.header_actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.btn_back {
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.btn_back:hover {
+  color: #CAAD17;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #161616;
+  letter-spacing: -0.5px;
+}
+
+/* Grid Principal (Formulário + Preview) */
+.grid_layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Card do Formulário */
+.card_form {
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card_form h2 {
+  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input_group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.input_group input,
+.input_group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.12);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input_group> input{
+    color: #616161;
+}
+
+
+
+.input_group input:focus,
+.input_group textarea:focus {
+  border-color: #CAAD17;
+  box-shadow: 0 0 0 3px rgba(202, 173, 23, 0.2);
+}
+
+
+/* Botão Submit Dourado */
+.btn_submit {
+  margin-top: 12px;
+  padding: 14px;
+  background: linear-gradient(135deg, #CAAD17 0%, #a88f11 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(202, 173, 23, 0.25);
+}
+
+.btn_submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #d8ba1c 0%, #b89c13 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(202, 173, 23, 0.35);
+}
+
+.btn_submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error_banner {
+  background-color: rgba(202, 42, 48, 0.15);
+  border: 1px solid #CA2A30;
+  color: #f87171;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* Card de Preview da Grade */
+.card_preview {
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card_preview h3 {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.card_preview p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+.preview_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+  gap: 8px;
+}
+
+.preview_card {
+  height: 42px;
+  border-radius: 6px;
+  border: 1px solid rgb(8, 103, 158);
+  background-color: rgba(8, 103, 158, 0.1);
+  color: rgb(8, 103, 158);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.preview_more {
+  height: 42px;
+  border-radius: 6px;
+  background-color: #202020;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Layout Responsivo */
+@media (max-width: 900px) {
+  .grid_layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,77 +1,355 @@
+.page_container {
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* --- CABEÇALHO --- */
+.header_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
 .title {
-    
-    padding: 40px 0 0 10%;
+  font-size: 1.6rem;
+  color: var(--primary);
+  font-weight: 700;
 }
 
+.description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+/* --- BANNER DE ALERTA CRÍTICO --- */
+.alert_banner {
+  background-color: rgba(209, 40, 40, 0.12);
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+/* --- CARDS DE KPI --- */
+.kpi_grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.kpi_card {
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.kpi_label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi_value {
+  font-size: 1.5rem;
+  margin-top: 4px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.kpi_success {
+  color: #10b981;
+}
+
+.kpi_warning {
+  color: #f59e0b;
+}
+
+.kpi_danger {
+  color: var(--error);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 16px 0;
+  opacity: 0.4;
+}
+
+/* --- ESTRUTURA PRINCIPAL --- */
 .hero_section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 40px 10% 100px 10%;
-    gap: 40Px;
-
-    position: relative;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
 }
 
+/* MATRIZ DE CAVIDADES (Área Principal) */
 .hero_cav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background-color: rgb(221, 216, 226);
-    border-radius: 12px;
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
 }
 
+.section_subtitle {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+/* MATRIZ ORIGINAL DE CAVIDADES - OTIMIZADA PARA TABLET (TOQUE) */
 .card_grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    column-gap: 10px;
-    row-gap: 10px;
-    list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.hero_cav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background-color: rgb(221, 216, 226);
-    border-radius: 12px;
-}
-
+/* --- PAINEL LATERAL (Histórico e Causa Raiz) --- */
 .hero_hist {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: 20px;
-    background-color: rgb(221, 216, 226);
-    width: 100%;
-    min-height: fit-content;
-    border-radius: 12px;
-}
-.hist_item > p{
-    color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.display_none {
-    display: none;
+.pareto_box,
+.historico_box {
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.pareto_box h3,
+.historico_box h3 {
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.pareto_list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.pareto_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.pareto_badge {
+  background-color: rgba(151, 125, 35, 0.15);
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
 }
 
 .historico_cav {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
 }
-.historico_cav> h3 {
-    color: black;
-}
-
 
 .hist_item {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 5px;
-    /* border: 1px solid red; */
-    border-bottom: 1px solid rgb(163, 158, 158);
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  border-left: 4px solid var(--error);
+}
+
+.empty_text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   ADAPTAÇÃO RESPONSIVA PARA TABLET
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero_section {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi_grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card_grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header_section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kpi_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================================
+   ESTILOS DE IMPRESSÃO E PDF (FORÇAR 1 FOLHA A4 COM CABEÇALHO E RODAPÉ REDUZIDO)
+   ========================================================================== */
+@page {
+  size: A4 portrait;
+  margin: 6mm 8mm 4mm 8mm; /* Margem inferior reduzida para encurtar o footer */
+}
+
+@media print {
+  :global(body) {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  :global(header),
+  :global(nav),
+  :global(button),
+  :global(footer) {
+    display: none !important;
+  }
+
+  .page_container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Cabeçalho do Relatório PDF */
+  .header_section {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 6px !important;
+    border-bottom: 2px solid #333333 !important;
+  }
+
+  .title {
+    font-size: 1.25rem !important;
+    margin: 0 !important;
+  }
+
+  .description {
+    font-size: 0.75rem !important;
+    margin-top: 2px !important;
+  }
+
+  .alert_banner {
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 8px !important;
+    border: 1px solid #d32f2f !important;
+    background-color: #ffebee !important;
+    color: #c62828 !important;
+  }
+
+  /* KPIs Compactos na mesma linha */
+  .kpi_grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 6px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .kpi_card {
+    padding: 6px !important;
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+  }
+
+  .kpi_label {
+    font-size: 0.65rem !important;
+  }
+
+  .kpi_value {
+    font-size: 1.1rem !important;
+    margin-top: 2px !important;
+  }
+
+  .divider {
+    margin: 6px 0 !important;
+  }
+
+  /* Layout 2 colunas */
+  .hero_section {
+    grid-template-columns: 1fr 250px !important;
+    gap: 10px !important;
+  }
+
+  .hero_cav,
+  .pareto_box,
+  .historico_box {
+    padding: 10px !important;
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    border-radius: 6px !important;
+    break-inside: avoid;
+  }
+
+  .section_subtitle {
+    font-size: 0.85rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .pareto_box h3,
+  .historico_box h3 {
+    font-size: 0.8rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* MATRIZ DE CAVIDADES COM MAIS ESPAÇAMENTO */
+  .card_grid {
+    grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .pareto_item,
+  .hist_item {
+    font-size: 0.75rem !important;
+    padding: 4px 6px !important;
+  }
+
+  .historico_cav {
+    max-height: 160px !important;
+    gap: 4px !important;
+  }
 }

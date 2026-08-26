@@ -1,0 +1,138 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: calc(100dvh - 140px);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+}
+
+.btn_back {
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: color 0.2s ease;
+}
+
+.btn_back:hover {
+  color: #CAAD17;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #161616;
+  letter-spacing: -0.5px;
+}
+
+.btn_add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  background-color: #CAAD17;
+  color: #121212;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn_add:hover {
+  background-color: #d8ba1c;
+  transform: translateY(-1px);
+}
+
+.card_list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card_item {
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card_item:hover {
+  border-color: rgba(202, 173, 23, 0.4);
+  transform: translateY(-2px);
+}
+
+.card_info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #CAAD17;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card_info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.loading {
+  color: #94a3b8;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.empty_state {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.empty_state h2 {
+  color: #ffffff;
+  font-size: 1.25rem;
+}
+
+.empty_state p {
+  color: #94a3b8;
+  max-width: 420px;
+}
+
+.error_banner {
+  background-color: rgba(202, 42, 48, 0.15);
+  border: 1px solid #CA2A30;
+  color: #f87171;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}

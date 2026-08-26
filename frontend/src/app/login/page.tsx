@@ -1,38 +1,24 @@
-import style from './login.module.css'
-import logo from '../../../public/icon.png'
-import Image from 'next/image'
+import { cookies } from 'next/headers'
+import LoginCard from '@/components/logincard/page'
+import { redirect } from 'next/navigation'
 
 
-export default function Login() {
+
+
+
+export default async function Login() {
+
+    const cookieStore = await cookies()
+
+
+    const hasToken = cookieStore.get('token')
+    if (hasToken?.value) {
+        return redirect('/molde')
+    }   
+
 
     return (
-        <div className={style.section_login}>
-            <form className={style.form} action="">
-                <Image
-                    className={''}
-                    src={logo}
-                    alt="Logo Proinject"
-                    width={100}
-                    height={100}
-                />
-                <h2>Login</h2>
-                <div className={style.form_label}>
 
-                    <div className={style.label_input}>
-                        <label className={style.label} htmlFor="" >E-mail</label>
-                        <input className={style.input} type="email" required placeholder='seu email'/>
-                    </div>
-                    <div className={style.label_input}>
-                        <label className={style.label} htmlFor="">Senha</label>
-                        <input className={style.input} type="password" required placeholder='*****'/>
-                    </div>
-                    <div className={style.entrar_btn}>
-                        <button className={style.btn_entrar}>Entrar</button>
-                        <p className={style.cadastre_se} >Cadastre-se</p>
-                    </div>
-
-                </div>
-            </form>
-        </div>
+        <LoginCard />
     )
 }

@@ -1,33 +1,28 @@
-export const dynamic = 'force-dynamic';
-import api from '@/service/api'
+import { getMoldes, MoldeEncontradoProps } from '@/_actions/_getMoldes/page';
 import EscolherMolde from '@/components/escolherMolde';
-
-interface MoldesEncontradosProps {
-    id_cavidade: number;
-    molde: {
-        id_molde: number;
-        cod_molde: string;
-    },
-    versao: {
-        id_versao: number;
-        versao: string
-    }
-}
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function Moldes() {
-    let moldesEncontrados: MoldesEncontradosProps[] = []
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
 
-    try {
-        const moldes = await api.get('/moldes')
-        moldesEncontrados = moldes.data
-    } catch (error) {
-        throw new Error('Nenhum molde encontrado.')
-    }
+  // Se não houver token, redireciona para o login
+  if (!token) {
+    redirect('/login');
+  }
 
+  let dados: MoldeEncontradoProps[] = [];
 
-    return (
-        <>
-            <EscolherMolde moldesNoBanco={moldesEncontrados} />
-        </>
-    )
+  try {
+    dados = await getMoldes(token);
+  } catch (error) {
+    console.error('Erro ao carregar a página de moldes:', error);
+  }
+
+  return (
+    <main>
+      <EscolherMolde moldesNoBanco={dados} />
+    </main>
+  );
 }

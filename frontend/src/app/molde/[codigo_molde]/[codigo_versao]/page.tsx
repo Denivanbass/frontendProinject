@@ -1,140 +1,217 @@
-import api from "@/service/api"
-import style from './page.module.css'
+import api from "@/service/api";
+import style from './page.module.css';
 import CardCav from "@/components/cardCavidade/cardCav";
-
+import ExportReportButton from "@/components/exportReport/ExportReportButton";
 
 export const revalidate = 0;
 
-
-
-interface CavidadeProps {
-    number: number;
-    status: string;
-    molde: { cod_molde: string };
-    versao: { versao: string };
+export interface CavidadeProps {
+  number: number;
+  status: string;
 }
 
-interface FechadaProps {    
-    cavidade: { number: number }
-    defeito: { descricao_defeito: string }
+export interface DetalhesMoldeResponse {
+  id_versao: number;
+  id_molde: number;
+  versao: string;
+  molde: {
+    id_molde: number;
+    cod_molde: string;
+    description: string;
+  };
+  cavidade: CavidadeProps[];
 }
 
-interface colaboradoresProps {
-    id_colaborador: number;
-    nome: string;
-    cargo: string;
+export interface FechadaProps {
+  id_ocorrencia?: number;
+  cavidade: { number: number };
+  defeito: { descricao_defeito: string };
 }
 
-interface DefeitosProps {
-    id_defeito: number;
-    descricao_defeito: string;
+export interface ColaboradorProps {
+  id_colaborador: number;
+  nome: string;
+  cargo: string;
 }
 
-interface MoldeVersaoProps{
-    params: Promise<{
-        codigo_molde: string;
-        codigo_versao: string;
-    }>
+export interface DefeitoProps {
+  id_defeito: number;
+  descricao_defeito: string;
 }
 
+interface MoldeVersaoProps {
+  params: Promise<{
+    codigo_molde: string;
+    codigo_versao: string;
+  }>;
+}
 
-// 1. Transformamos o componente em uma função assíncrona
-export default async function DetalhesMolde({params}: MoldeVersaoProps) {
+export default async function DetalhesMolde({ params }: MoldeVersaoProps) {
+  const { codigo_molde, codigo_versao } = await params;
 
-    const { codigo_molde, codigo_versao } = await params
-   
+  let moldeData: DetalhesMoldeResponse | null = null;
+  let cavFechadas: FechadaProps[] = [];
+  let colaboradores: ColaboradorProps[] = [];
+  let defeitos: DefeitoProps[] = [];
 
+  const [moldeRes, fechadasRes, defeitosRes, colaboradoresRes] =
+    await Promise.allSettled([
+      api.get<DetalhesMoldeResponse>(`/molde/${codigo_molde}/${codigo_versao}`),
+      api.get<FechadaProps[]>(`/fechada/${codigo_molde}/${codigo_versao}`),
+      api.get<DefeitoProps[]>('/defeitos'),
+      api.get<ColaboradorProps[]>('/colaborador'),
+    ]);
 
-    // 2. Buscamos os dados diretamente (sem useEffect)
-    let molde: CavidadeProps[] = [];
-    let cavFechadas: FechadaProps[] = []
-    let colaboradoress: colaboradoresProps[] = []
-    let defeitos: DefeitosProps[] = []
+  if (moldeRes.status === 'fulfilled') moldeData = moldeRes.value.data;
+  if (fechadasRes.status === 'fulfilled') cavFechadas = fechadasRes.value.data;
+  if (defeitosRes.status === 'fulfilled') defeitos = defeitosRes.value.data;
+  if (colaboradoresRes.status === 'fulfilled') colaboradores = colaboradoresRes.value.data;
 
-    try {
-        const response = await api.get(`/molde/${codigo_molde}/${codigo_versao}`);
-        molde = response.data;
-    } catch (error) {
-        console.error("Erro ao buscar dados no servidor:", error);
+  // --- CÁLCULOS DE KPI E EFICIÊNCIA ---
+  const totalCavidades = moldeData?.cavidade.length || 0;
+  const cavidadesAbertas = moldeData?.cavidade.filter((c) => c.status === 'Aberta').length || 0;
+  const cavidadesFechadasCount = totalCavidades - cavidadesAbertas;
+  const eficiencia = totalCavidades > 0 ? Math.round((cavidadesAbertas / totalCavidades) * 100) : 0;
+  const perdaCapacidade = 100 - eficiencia;
+  const alertaManutencao = eficiencia < 75 && totalCavidades > 0;
 
-    }
+  // --- RESUMO DE DEFEITOS RECORRENTES (Pareto local) ---
+  const defeitoContagem: Record<string, number> = {};
+  cavFechadas.forEach((item) => {
+    const nomeDefeito = item.defeito.descricao_defeito;
+    defeitoContagem[nomeDefeito] = (defeitoContagem[nomeDefeito] || 0) + 1;
+  });
 
+  const topDefeitos = Object.entries(defeitoContagem)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
 
-    // Buscar historico de cavidades fechadas
-    try {
-        const response2 = await api.get(`/fechada/${codigo_molde}/${codigo_versao}`, {           
-        });
-        cavFechadas = response2.data;
-    } catch (error) {
-        console.error("Erro ao buscar dados no servidor:", error);
-    }
+  return (
+    <div className={style.page_container}>
+      {/* CABEÇALHO COM BOTÃO DE EXPORTAÇÃO */}
+      <div className={style.header_section}>
+        <div>
+          <h1 className={style.title}>
+            {moldeData
+              ? `${moldeData.molde.cod_molde} - ${moldeData.versao}`
+              : "Nenhum molde encontrado"}
+          </h1>
+          <p className={style.description}>
+            {moldeData?.molde.description || "Sem descrição cadastrada"}
+          </p>
+        </div>
+        <ExportReportButton />
+      </div>
 
-    // Buscar Tipos de defeitos:
-    try {
-        const defeito = await api.get('/defeitos')
-        defeitos = defeito.data
+      {/* BANNER DE ALERTA SE A EFICIÊNCIA FOR MENOR QUE 75% */}
+      {alertaManutencao && (
+        <div className={style.alert_banner}>
+          <strong>⚠️ Alerta de Ferramentaria:</strong> Este molde está operando com apenas{' '}
+          <strong>{eficiencia}%</strong> da sua capacidade ({cavidadesFechadasCount} cavidades bloqueadas). Recomendada intervenção para manutenção preventiva.
+        </div>
+      )}
 
-    } catch (error) {
-        console.log(`Defeito não encontrado`)
-    }
+      {/* CARDS DE KPI */}
+      <div className={style.kpi_grid}>
+        <div className={style.kpi_card}>
+          <span className={style.kpi_label}>Total Cavidades</span>
+          <strong className={style.kpi_value}>{totalCavidades}</strong>
+        </div>
 
+        <div className={style.kpi_card}>
+          <span className={style.kpi_label}>Operacionais</span>
+          <strong className={`${style.kpi_value} ${style.kpi_success}`}>
+            {cavidadesAbertas}
+          </strong>
+        </div>
 
+        <div className={style.kpi_card}>
+          <span className={style.kpi_label}>Bloqueadas</span>
+          <strong className={`${style.kpi_value} ${style.kpi_danger}`}>
+            {cavidadesFechadasCount}
+          </strong>
+        </div>
 
-    //Buscar colaboradores:
-    try {
-        const colaborador = await api.get('/colaborador')
-        colaboradoress = colaborador.data
+        <div className={style.kpi_card}>
+          <span className={style.kpi_label}>Eficiência Atual</span>
+          <strong
+            className={`${style.kpi_value} ${
+              eficiencia >= 80
+                ? style.kpi_success
+                : eficiencia >= 60
+                ? style.kpi_warning
+                : style.kpi_danger
+            }`}
+          >
+            {eficiencia}%
+          </strong>
+        </div>
 
-    } catch (error) {
-        console.log(`Colaborador não encontrado.`)
-    }
+        <div className={style.kpi_card}>
+          <span className={style.kpi_label}>Perda de Capacidade</span>
+          <strong className={`${style.kpi_value} ${style.kpi_danger}`}>
+            -{perdaCapacidade}%
+          </strong>
+        </div>
+      </div>
 
+      <hr className={style.divider} />
 
+      {/* SEÇÃO PRINCIPAL */}
+      <section className={style.hero_section}>
+        {/* MAPA DE CAVIDADES */}
+        <div className={style.hero_cav}>
+          <h2 className={style.section_subtitle}>Visão Geral das Cavidades</h2>
+          <ul className={style.card_grid}>
+            <CardCav
+              ListaCavidades={moldeData?.cavidade || []}
+              Colaboradores={colaboradores}
+              Defeitos={defeitos}
+              codigo_molde={codigo_molde}
+              codigo_versao={codigo_versao}
+            />
+          </ul>
+        </div>
 
+        {/* PAINEL LATERAL: HISTÓRICO E CAUSA RAIZ */}
+        <div className={style.hero_hist}>
+          {/* PARETO DOS PRINCIPAIS DEFEITOS */}
+          {topDefeitos.length > 0 && (
+            <div className={style.pareto_box}>
+              <h3>Principais Motivos de Bloqueio</h3>
+              <ul className={style.pareto_list}>
+                {topDefeitos.map(([defeito, qtd]) => (
+                  <li key={defeito} className={style.pareto_item}>
+                    <span>{defeito}</span>
+                    <strong className={style.pareto_badge}>{qtd}x</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-
-
-    return (
-        <>
-
-            <h1 className={style.title}>
-                {molde[0]?.molde?.cod_molde || "Nenhum molde encontrado"} {molde[0]?.versao?.versao}
-            </h1>
-
-
-            <br />
-            <hr />
-
-            <section className={style.hero_section}>
-                <div className={style.hero_cav}>
-
-                    <ul className={style.card_grid}>
-
-                        <CardCav ListaCavidades={molde} Colaboradores={colaboradoress} Defeitos={defeitos} />
-
-                    </ul>
-
-
-
-                </div>
-                <div className={style.hero_hist}>
-
-                    <ul className={style.historico_cav}>
-                        <h3>Cavidades Fechadas</h3>
-                        {cavFechadas.map((item) => (
-                            <li className={style.hist_item} key={item.cavidade.number} >
-                                <p>{item.cavidade.number} - {item.defeito.descricao_defeito}</p>
-
-                            </li>
-                        ))}
-                    </ul>
-
-
-
-                </div>
-
-            </section>
-
-        </>
-    );
+          {/* HISTÓRICO DE OCORRÊNCIAS */}
+          <div className={style.historico_box}>
+            <h3>Ocorrências de Cavidades Fechadas</h3>
+            {cavFechadas.length === 0 ? (
+              <p className={style.empty_text}>Nenhuma cavidade fechada no momento.</p>
+            ) : (
+              <ul className={style.historico_cav}>
+                {cavFechadas.map((item, index) => (
+                  <li
+                    className={style.hist_item}
+                    key={item.id_ocorrencia ?? `${item.cavidade.number}-${index}`}
+                  >
+                    <p>
+                      <strong>Cav. {item.cavidade.number}</strong> — {item.defeito.descricao_defeito}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

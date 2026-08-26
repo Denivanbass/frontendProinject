@@ -1,81 +1,191 @@
-
+/* Container e Posicionamento do Modal */
 .posicionamentoModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 
-    background-color: rgba(24, 22, 22, 0.911);
-    color: aliceblue;
-    border-radius: 12px;
-    padding: 80px;
+  width: 90%;
+  max-width: 460px;
+  padding: 32px 28px;
 
+  background-color: rgba(24, 22, 22, 0.95);
+  backdrop-filter: blur(8px);
+  color: aliceblue;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
 
-    position: absolute;
-    top: 80px;
-    right: 40%;
-
-
+  animation: modalFadeIn 0.2s ease-out;
 }
 
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
 
+/* Botão Fechar (X) */
+.posicionamentoModal > button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #a0a0a0;
+  font-size: 16px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
 
+.posicionamentoModal > button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: aliceblue;
+}
 
+/* Estilização Interna do Formulário */
+.posicionamentoModal form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
+.posicionamentoModal h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  padding-right: 20px;
+  line-height: 1.4;
+}
 
+.posicionamentoModal label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ccc;
+  margin-bottom: -8px;
+}
+
+.posicionamentoModal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Selects e Inputs dentro do Modal */
+.posicionamentoModal select,
+.posicionamentoModal input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: #2b2828;
+  color: aliceblue;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.posicionamentoModal select:focus,
+.posicionamentoModal input:focus {
+  border-color: rgb(8, 103, 158);
+  box-shadow: 0 0 0 3px rgba(8, 103, 158, 0.3);
+}
+
+/* Botão Enviar do Formulário */
+.posicionamentoModal form button[type="submit"] {
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: rgb(8, 103, 158);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.posicionamentoModal form button[type="submit"]:hover {
+  background-color: rgb(6, 82, 126);
+}
+
+.posicionamentoModal form button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+/* Estilos dos Cards (Mantidos e Refinados) */
 .card_active {
-    border: 1px solid rgb(8, 103, 158);
-    width: 60px;
-    height: 60px;
-
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(8, 103, 158);
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.card_active:hover{
-    transform: scale(1.1);
-    transition: 0.2s;
+
+.card_active:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(8, 103, 158, 0.25);
 }
 
 .card_inactive {
-    border: 1px solid #CA2A30;
-    width: 60px;
-    height: 60px;
+  border: 1px solid #CA2A30;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: rgb(255, 255, 255);
+.card_inactive:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(202, 42, 48, 0.25);
 }
 
 .cavidade {
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70%;
-    font-weight: bold;
-    font-size: 18px;
-
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  font-weight: bold;
+  font-size: 18px;
 }
 
-
 .status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 }
 
 .ativa {
-    color: rgb(8, 103, 158);
+  color: rgb(8, 103, 158);
 }
 
 .inativa {
-    color: #CA2A30;
+  color: #CA2A30;
 }
 
-
+/* Controle de Exibição */
 .modalFecharcavAtivo {
-    display: block;
+  display: block;
 }
+
 .modalFecharcavInativo {
-    display: none;
+  display: none;
 }
-
-
