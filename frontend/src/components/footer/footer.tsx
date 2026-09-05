@@ -1,5 +1,4 @@
 'use client'
-import style from './footer.module.css'
 import logo from '../../../public/logoPRO.png'
 import Image from 'next/image'
 
@@ -12,20 +11,24 @@ export default function Footer() {
 
     return (
         <>
+            <div className='bg-gray-950 w-full'>
 
-            <div className={style.container_footer}>
-                
-                <Image 
-                 src={logo} alt="Logo da Proinject" 
-                 loading='lazy'                
-                />
-                <div >
-                    <p className={style.footer} >© {currentYear} Proinject - Todos os direitos reservados.</p>
+                <div className='w-full max-w-7xl m-auto p-6 flex flex-col justify-center items-center gap-2 md:flex-row md:justify-between'>
+
+                    <Image
+                        src={logo}
+                        alt="Logo da Proinject"
+                        loading='lazy'
+                    />
+                    <div >
+                        <p className='text-sm text-gray-400' >© {currentYear} Proinject - Todos os direitos reservados.</p>
+                    </div>
+                    <p className='text-sm text-gray-400' >Desenvolvido por: Denivan Dias</p>
+
+
                 </div>
-                <p className={style.footer} >Desenvolvido por: Denivan Dias</p>
-
-
             </div>
+
         </>
     )
 }
