@@ -3,7 +3,6 @@
 import { useActionState, useEffect } from 'react'
 import logo from '../../../public/icon.png'
 import Image from 'next/image'
-import fabrica from '../../../public/proinject-fab.webp'
 import { LoginAction } from '@/_actions/_loginAction/page'
 
 
@@ -17,9 +16,9 @@ export default function LoginCard() {
     return (
         <>
 
-            <div className='w-full py-22 bg-white flex justify-center items-center '>
+            <div className='w-full py-20 px-4 bg-white flex justify-center items-center '>
 
-                <form className='border border-gray-300 rounded-lg w-full max-w-sm p-10 shadow-lg shadow-gray-300 flex flex-col items-center gap-8' action={formAction}>
+                <form className='border border-gray-300 rounded-lg w-full max-w-sm  p-8 shadow-lg shadow-gray-300 flex flex-col items-center gap-8' action={formAction}>
                     <Image
                         className='w-30 h-30'
                         src={logo}
@@ -35,7 +34,7 @@ export default function LoginCard() {
                             <label className='text-gray-500 font-bold text-nowrap' htmlFor="email">E-mail</label>
                             <input
                                 id="email"
-                                className='border border-gray-400 rounded-sm w-full p-1 focus:outline-yellowTheme-500 text-gray-600 font-medium text-lg'
+                                className='border border-gray-400 rounded-sm w-full p-1 focus:outline-yellowTheme-500 text-gray-700 font-base text-md'
                                 type="email"
                                 name="email"
                                 required
@@ -47,7 +46,7 @@ export default function LoginCard() {
                             <label className='text-gray-500 font-bold text-nowrap' htmlFor="password">Senha</label>
                             <input
                                 id="password"
-                                className='border border-gray-400 rounded-sm w-full p-1 focus:outline-yellowTheme-500 text-gray-600 font-medium text-lg'
+                                className='border border-gray-400 rounded-sm w-full p-1 focus:outline-yellowTheme-500 text-gray-600 font-base text-md'
                                 type="password"
                                 name="password"
                                 required
