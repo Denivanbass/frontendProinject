@@ -17,7 +17,7 @@ export default function LoginCard() {
     return (
         <>
 
-            <div className='w-full py-22 flex justify-center items-center '>
+            <div className='w-full py-22 bg-white flex justify-center items-center '>
 
                 <form className='border border-gray-300 rounded-lg w-full max-w-sm p-10 shadow-lg shadow-gray-300 flex flex-col items-center gap-8' action={formAction}>
                     <Image
