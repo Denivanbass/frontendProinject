@@ -126,8 +126,17 @@ body {
 }
 
 @theme {
-  --color-yellowTheme-500: #957D26;
-  --color-yellowTheme-600: #806B23;
+  --color-primary-design: #CAAD17; 
+  --color-primary-design_hover: #B59907;
+  --color-secondary-design: #977D23;
+  --color-secondary-hover-design: #7D6616;
+  --color-white-design: #FDFDFD;
+  --color-black-design: #030712;
+  --color-black-hover-design: #000000; 
+  --color-gray-design: #62748e; 
+  --color-gray-bold-design: #45556c; 
+  --color-gray-border-design: #90a1b9; 
+
 }
 
 @theme inline {

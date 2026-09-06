@@ -115,23 +115,20 @@ export default function CardCav({
     <>
       {ListaCavidades.map((item) => (
         <li
-          className={`${style.card_active} ${
-            item.status === 'Aberta' ? style.card_active : style.card_inactive
-          }`}
+          className={`  ${style.card_active}  ${item.status === 'Aberta' ? style.card_active : style.card_inactive
+            }`}
           key={item.number}
           onClick={() => abrirModal(item.number, item.status)}
         >
           <p
-            className={`${style.cavidade} ${
-              item.status === 'Aberta' ? style.ativa : style.inativa
-            }`}
+            className={`${style.cavidade} ${item.status === 'Aberta' ? style.ativa : style.inativa
+              }`}
           >
             {item.number}
           </p>
           <p
-            className={`${style.status} ${
-              item.status === 'Aberta' ? style.ativa : style.inativa
-            }`}
+            className={`${style.status} ${item.status === 'Aberta' ? style.ativa : style.inativa
+              }`}
           >
             {item.status}
           </p>
@@ -140,9 +137,8 @@ export default function CardCav({
 
       {/* Modal Fechar Cavidade */}
       <div
-        className={`${
-          !modalFecharCav ? style.modalFecharcavInativo : style.modalFecharcavAtivo
-        } ${style.posicionamentoModal}`}
+        className={`${!modalFecharCav ? style.modalFecharcavInativo : style.modalFecharcavAtivo
+          } ${style.posicionamentoModal}`}
       >
         <button type="button" onClick={fecharModal}>
           <strong>X</strong>
@@ -201,9 +197,8 @@ export default function CardCav({
 
       {/* Modal Abrir Cavidade */}
       <div
-        className={`${
-          !modalAbrirCav ? style.modalFecharcavInativo : style.modalFecharcavAtivo
-        } ${style.posicionamentoModal}`}
+        className={`${!modalAbrirCav ? style.modalFecharcavInativo : style.modalFecharcavAtivo
+          } ${style.posicionamentoModal}`}
       >
         <button type="button" onClick={fecharModal}>
           <strong>X</strong>

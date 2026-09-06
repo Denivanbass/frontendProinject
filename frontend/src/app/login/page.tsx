@@ -14,11 +14,13 @@ export default async function Login() {
     const hasToken = cookieStore.get('token')
     if (hasToken?.value) {
         return redirect('/molde')
-    }   
+    }
 
 
     return (
 
         <LoginCard />
+
+
     )
 }
