@@ -141,7 +141,6 @@
 .historico_box h3 {
   font-size: 0.95rem;
   color: var(--primary);
-  margin-bottom: 10px;
 }
 
 .pareto_list {
@@ -333,7 +332,6 @@
   .pareto_box h3,
   .historico_box h3 {
     font-size: 0.8rem !important;
-    margin-bottom: 6px !important;
   }
 
   /* MATRIZ DE CAVIDADES COM MAIS ESPAÇAMENTO */

@@ -26,7 +26,7 @@ export default function EscolherMolde({ moldesNoBanco }: EscolherMoldeProps) {
     <section className='w-full h-screen bg-white-design   '>
       <div className='w-full max-w-7xl m-auto flex flex-col gap-4 p-6 sm:py-10 md:py-20'>
         <div className='flex justify-between items-center'>
-          <h2 className='text-lg font-extrabold sm:text-3xl' >Moldes Encontrados</h2>
+          <h2 className='text-lg font-extrabold sm:text-3xl' >Moldes Ativos</h2>
           <Link href="/cadastro_molde" className='bg-primary-design hover:bg-primary-design_hover duration-300 rounded-lg p-2 md:p-4 font-bold'>
             + Adicionar Molde
           </Link>
@@ -36,7 +36,7 @@ export default function EscolherMolde({ moldesNoBanco }: EscolherMoldeProps) {
           {moldesNoBanco.map((molde) =>
             molde.versao.map((v) => (
               <li
-                className='bg-black-design text-white-design rounded-sm p-4 '
+                className='bg-black-design text-white-design rounded-lg p-4 '
                 key={`${molde.id_molde}-${v.id_versao}`}
               >
                 <Link href={`/molde/${molde.cod_molde}/${v.versao}`}>
