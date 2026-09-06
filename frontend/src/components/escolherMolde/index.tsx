@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import style from './escolherMolde.module.css';
 import { MoldeEncontradoProps } from '@/_actions/_getMoldes/page';
 
 interface EscolherMoldeProps {
@@ -24,7 +23,13 @@ export default function EscolherMolde({ moldesNoBanco }: EscolherMoldeProps) {
 
   return (
     <section className='w-full h-screen bg-white-design   '>
-      <div className='w-full max-w-7xl m-auto flex flex-col gap-4 p-6 sm:py-10 md:py-20'>
+      <div className='w-full max-w-7xl m-auto flex flex-col gap-4 p-6 sm:py-10 md:py-10'>
+        <Link
+          href="/gestao"
+          className="mb-2 inline-block text-xs font-medium text-gray-design transition-colors duration-200 hover:text-primary-design sm:text-sm"
+        >
+          ← Voltar para Gestão
+        </Link>
         <div className='flex justify-between items-center'>
           <h2 className='text-lg font-extrabold sm:text-3xl' >Moldes Ativos</h2>
           <Link href="/cadastro_molde" className='bg-primary-design hover:bg-primary-design_hover duration-300 rounded-lg p-2 md:p-4 font-bold'>

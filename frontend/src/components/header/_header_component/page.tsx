@@ -55,7 +55,7 @@ export default function HeaderComponent({ token }: TokenProps) {
   ]
 
   return (
-    <header className='bg-black-design w-full'>
+    <header className='bg-black-design w-full print:hidden'>
       <div className='w-full max-w-7xl m-auto'>
         <div className=' flex justify-between items-center py-4 px-6 '>
           <Link href={isLogged ? '/dashboard' : '/login'}>

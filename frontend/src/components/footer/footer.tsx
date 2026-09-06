@@ -1,34 +1,37 @@
 'use client'
+
 import logo from '../../../public/logoPRO.png'
 import Image from 'next/image'
 
-
-
-
 export default function Footer() {
+  const currentYear = new Date().getFullYear()
 
-    const currentYear = new Date().getFullYear()
+  return (
+    <footer className="w-full border-t border-gray-border-design/15 bg-black-design print:hidden">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-3 px-4 py-5 sm:px-6 sm:py-6 md:flex-row md:justify-between">
+        
+        {/* Logo */}
+        <Image
+          src={logo}
+          alt="Logo da Proinject"
+          loading="lazy"
+          className="h-auto w-[120px] sm:w-[130px]"
+        />
 
-    return (
-        <>
-            <div className='bg-gray-950 w-full'>
+        {/* Copyright */}
+        <p className="text-center text-xs text-gray-design sm:text-sm">
+          © {currentYear} Proinject - Todos os direitos reservados.
+        </p>
 
-                <div className='w-full max-w-7xl m-auto p-6 flex flex-col justify-center items-center gap-2 md:flex-row md:justify-between'>
+        {/* Desenvolvedor */}
+        <p className="text-center text-xs text-gray-design sm:text-sm">
+          Desenvolvido por:{' '}
+          <span className="font-medium text-gray-bold-design">
+            Denivan Dias
+          </span>
+        </p>
 
-                    <Image
-                        src={logo}
-                        alt="Logo da Proinject"
-                        loading='lazy'
-                    />
-                    <div >
-                        <p className='text-sm text-gray-400' >© {currentYear} Proinject - Todos os direitos reservados.</p>
-                    </div>
-                    <p className='text-sm text-gray-400' >Desenvolvido por: Denivan Dias</p>
-
-
-                </div>
-            </div>
-
-        </>
-    )
+      </div>
+    </footer>
+  )
 }

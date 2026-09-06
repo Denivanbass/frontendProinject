@@ -91,9 +91,9 @@ export default async function DetalhesMolde({
     colaboradores = colaboradoresRes.value.data;
   }
 
-  // ==========================================
+  // =========================================================
   // KPIs
-  // ==========================================
+  // =========================================================
 
   const totalCavidades = moldeData?.cavidade.length ?? 0;
 
@@ -117,9 +117,9 @@ export default async function DetalhesMolde({
   const alertaManutencao =
     totalCavidades > 0 && eficiencia < 75;
 
-  // ==========================================
+  // =========================================================
   // PARETO
-  // ==========================================
+  // =========================================================
 
   const defeitoContagem: Record<string, number> = {};
 
@@ -134,9 +134,9 @@ export default async function DetalhesMolde({
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
-  // ==========================================
-  // DADOS DOS KPIs
-  // ==========================================
+  // =========================================================
+  // KPIs
+  // =========================================================
 
   const kpis = [
     {
@@ -173,32 +173,115 @@ export default async function DetalhesMolde({
   ];
 
   return (
-    <main className="min-h-screen w-full bg-white-design px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5">
-      <div className="mx-auto w-full max-w-7xl">
+    <main
+      className="
+        print-report
+        min-h-screen
+        w-full
+        bg-white-design
+        px-3
+        py-3
 
-        {/* ==========================================
+        sm:px-4
+        sm:py-4
+
+        md:px-5
+        md:py-5
+
+        print:min-h-0
+        print:w-full
+        print:bg-white
+        print:p-0
+      "
+    >
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-7xl
+
+          print:w-full
+          print:max-w-none
+        "
+      >
+        {/* =====================================================
             CABEÇALHO
-        ========================================== */}
+        ===================================================== */}
 
-        <header className="mb-3 sm:mb-4">
-          <h1 className="text-lg font-bold text-black-design sm:text-xl md:text-2xl">
+        <header
+          className="
+            mb-3
+
+            sm:mb-4
+
+            print:mb-2
+            print-no-break
+          "
+        >
+          <h1
+            className="
+              text-lg
+              font-bold
+              text-black-design
+
+              sm:text-xl
+              md:text-2xl
+
+              print:text-base
+            "
+          >
             {moldeData
               ? `${moldeData.molde.cod_molde} - ${moldeData.versao}`
               : "Nenhum molde encontrado"}
           </h1>
 
-          <p className="mt-0.5 text-xs text-gray-bold-design sm:text-sm md:text-base">
+          <p
+            className="
+              mt-0.5
+              text-xs
+              text-gray-bold-design
+
+              sm:text-sm
+              md:text-base
+
+              print:text-[9px]
+            "
+          >
             {moldeData?.molde.description ||
               "Sem descrição cadastrada"}
           </p>
         </header>
 
-        {/* ==========================================
+        {/* =====================================================
             ALERTA
-        ========================================== */}
+        ===================================================== */}
 
         {alertaManutencao && (
-          <div className="mb-3 rounded-lg border border-red-500 bg-red-500/10 px-3 py-2 text-xs leading-relaxed text-black-design sm:mb-4 sm:p-3 sm:text-sm">
+          <div
+            className="
+              mb-3
+              rounded-lg
+              border
+              border-red-500
+              bg-red-500/10
+              px-3
+              py-2
+              text-xs
+              leading-relaxed
+              text-black-design
+
+              sm:mb-4
+              sm:p-3
+              sm:text-sm
+
+              print:mb-2
+              print:px-2
+              print:py-1
+              print:text-[9px]
+
+              print-no-break
+            "
+          >
             <strong>⚠️ Alerta de Ferramentaria:</strong>{" "}
             Molde operando com apenas{" "}
             <strong className="text-red-500">
@@ -209,24 +292,82 @@ export default async function DetalhesMolde({
           </div>
         )}
 
-        {/* ==========================================
+        {/* =====================================================
             KPIs
-        ========================================== */}
+        ===================================================== */}
 
-        <section className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-5">
+        <section
+          className="
+            grid
+            grid-cols-2
+            gap-2
+
+            sm:gap-3
+            md:grid-cols-5
+
+            print:grid-cols-5
+            print:gap-2
+
+            print-no-break
+          "
+        >
           {kpis.map((kpi) => (
             <div
               key={kpi.label}
-              className={`flex min-h-[78px] flex-col justify-between rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:min-h-[85px] sm:p-3.5 md:min-h-[90px] ${
-                kpi.fullMobile ? "col-span-2 md:col-span-1" : ""
-              }`}
+              className={`
+                flex
+                min-h-[78px]
+                flex-col
+                justify-between
+                rounded-lg
+                border
+                border-slate-200
+                bg-white
+                p-3
+                shadow-sm
+
+                sm:min-h-[85px]
+                sm:p-3.5
+
+                md:min-h-[90px]
+
+                print:h-[54px]
+                print:min-h-0
+                print:p-1.5
+                print:shadow-none
+
+                ${
+                  kpi.fullMobile
+                    ? "col-span-2 md:col-span-1 print:col-span-1"
+                    : ""
+                }
+              `}
             >
-              <span className="text-[11px] font-medium text-gray-bold-design sm:text-xs">
+              <span
+                className="
+                  text-[11px]
+                  font-medium
+                  text-gray-bold-design
+
+                  sm:text-xs
+
+                  print:text-[8px]
+                "
+              >
                 {kpi.label}
               </span>
 
               <strong
-                className={`text-xl font-bold sm:text-2xl ${kpi.color}`}
+                className={`
+                  text-xl
+                  font-bold
+
+                  sm:text-2xl
+
+                  print:text-base
+
+                  ${kpi.color}
+                `}
               >
                 {kpi.value}
               </strong>
@@ -234,58 +375,194 @@ export default async function DetalhesMolde({
           ))}
         </section>
 
-        {/* ==========================================
+        {/* =====================================================
             DIVISOR
-        ========================================== */}
+        ===================================================== */}
 
-        <div className="my-4 h-px w-full bg-slate-200 md:my-5" />
+        <div
+          className="
+            my-4
+            h-px
+            w-full
+            bg-slate-200
 
-        {/* ==========================================
-            CONTEÚDO PRINCIPAL
+            md:my-5
 
-            MOBILE:
-            1 coluna
+            print:my-2
+          "
+        />
 
-            TABLET:
-            matriz ocupa 100% da largura
+        {/* =====================================================
+            CONTEÚDO
+        ===================================================== */}
 
-            DESKTOP:
-            matriz + informações laterais
-        ========================================== */}
+        <section
+          className="
+            grid
+            grid-cols-1
+            gap-3
 
-        <section className="grid grid-cols-1 gap-3 md:gap-4 lg:grid-cols-2 lg:grid-rows-3">
+            md:gap-4
 
-          {/* ========================================
+            lg:grid-cols-2
+            lg:grid-rows-3
+
+            print:grid-cols-2
+            print:gap-2
+          "
+        >
+          {/* ===================================================
               MATRIZ DE CAVIDADES
-          ======================================== */}
+          =================================================== */}
 
-          <div className="min-w-0 lg:row-span-3">
-            <div className="flex min-h-[420px] flex-col gap-3 rounded-xl border border-slate-200 bg-slate-100 p-3 shadow-sm sm:min-h-[480px] sm:p-4 md:min-h-[560px] lg:h-full lg:min-h-[650px]">
+          <div
+            className="
+              min-w-0
 
-              {/* Cabeçalho da matriz */}
+              lg:row-span-3
 
-              <div className="flex shrink-0 items-center justify-between gap-2">
+              print:row-span-3
+              print-no-break
+            "
+          >
+            <div
+              className="
+                flex
+                min-h-[420px]
+                flex-col
+                gap-3
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-200
+                p-3
+                shadow-sm
+
+                sm:min-h-[480px]
+                sm:p-4
+
+                md:min-h-[560px]
+
+                lg:h-full
+                lg:min-h-[650px]
+
+                print:min-h-0
+                print:h-auto
+                print:gap-2
+                print:p-2
+                print:shadow-none
+              "
+            >
+              {/* Cabeçalho */}
+
+              <div
+                className=" 
+                  flex
+                  shrink-0
+                  items-center
+                  justify-between
+                  gap-2
+                "
+              >
                 <div className="min-w-0">
-                  <h2 className="text-sm font-semibold text-black-design sm:text-base md:text-lg">
+                  <h2
+                    className="
+                      text-sm
+                      font-semibold
+                      text-black-design
+
+                      sm:text-base
+                      md:text-lg
+
+                      print:text-xs
+                    "
+                  >
                     Visão Geral das Cavidades
                   </h2>
 
-                  <p className="text-[11px] text-gray-bold-design sm:text-xs">
+                  <p
+                    className="
+                      text-[11px]
+                      text-gray-bold-design
+
+                      sm:text-xs
+
+                      print:text-[8px]
+                    "
+                  >
                     Status atual do molde
                   </p>
                 </div>
 
-                <span className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-medium text-gray-bold-design shadow-sm sm:px-2.5 sm:text-xs">
+                <span
+                  className="
+                    shrink-0
+                    rounded-full
+                    bg-white
+                    px-2
+                    py-1
+                    text-[10px]
+                    font-medium
+                    text-gray-bold-design
+                    shadow-sm
+
+                    sm:px-2.5
+                    sm:text-xs
+
+                    print:px-2
+                    print:py-0.5
+                    print:text-[8px]
+                    print:shadow-none
+                  "
+                >
                   {totalCavidades} cavidades
                 </span>
               </div>
 
-              {/* Área da matriz */}
+              {/* =================================================
+                  MATRIZ
 
-              <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden rounded-lg bg-white/50 p-2 sm:p-3">
-                <ul className="grid w-full grid-cols-4 content-start gap-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-8">
+                  Na impressão usamos 6 colunas em vez de 10.
+                  Isso deixa cada cavidade maior e cria espaço
+                  suficiente entre as numerações.
+              ================================================= */}
+
+              <div
+                className="
+                  min-h-0
+                  flex-1
+                  overflow-y-auto
+                  overflow-x-hidden
+                  rounded-lg
+                  p-2
+
+                  sm:p-3
+
+                  print:flex-none
+                  print:overflow-visible
+                  print:p-2
+                "
+              >
+                <ul
+                  className="
+                    grid
+                    w-full
+                    grid-cols-4
+                    content-start
+                    gap-3
+
+                    sm:grid-cols-6
+                    md:grid-cols-8
+                    lg:grid-cols-8
+
+                    print:grid-cols-6
+                    print:gap-3
+                  "
+                >
                   <CardCav
-                    ListaCavidades={moldeData?.cavidade || []}
+                    ListaCavidades={
+                      moldeData?.cavidade || []
+                    }
                     Colaboradores={colaboradores}
                     Defeitos={defeitos}
                     codigo_molde={codigo_molde}
@@ -296,44 +573,117 @@ export default async function DetalhesMolde({
             </div>
           </div>
 
-          {/* ========================================
+          {/* ===================================================
               HISTÓRICO
-          ======================================== */}
+          =================================================== */}
 
-          <div className="min-w-0">
-            <div className="flex min-h-[180px] flex-col rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4 lg:h-full lg:min-h-0">
+          <div
+            className="
+              min-w-0
+              print-no-break
+            "
+          >
+            <div
+              className="
+                flex
+                min-h-[180px]
+                flex-col
+                rounded-xl
+                border
+                border-slate-200
+                bg-white
+                p-3
+                shadow-sm
 
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-black-design sm:text-base">
+                sm:p-4
+
+                lg:h-full
+                lg:min-h-0
+
+                print:min-h-0
+                print:h-auto
+                print:p-2
+                print:shadow-none
+              "
+            >
+              <div
+                className="
+                  mb-2
+                  flex
+                  items-center
+                  justify-between
+
+                  print:mb-1
+                "
+              >
+                <h3
+                  className="
+                    text-sm
+                    font-semibold
+                    text-black-design
+
+                    sm:text-base
+
+                    print:text-[10px]
+                  "
+                >
                   Ocorrências
                 </h3>
 
-                {cavFechadas.length > 0 && (
-                  <span className="rounded-full px-2 py-0.5 text-4 font-semibold text-red-600">
-                    {cavFechadas.length}
-                  </span>
-                )}
+                
               </div>
 
               {cavFechadas.length === 0 ? (
                 <div className="flex flex-1 items-center justify-center">
-                  <p className="text-center text-xs text-gray-bold-design sm:text-sm">
+                  <p
+                    className="
+                      text-center
+                      text-xs
+                      text-gray-bold-design
+
+                      sm:text-sm
+
+                      print:text-[8px]
+                    "
+                  >
                     Nenhuma cavidade fechada no momento.
                   </p>
                 </div>
               ) : (
-                <ul className="flex flex-col gap-1.5 overflow-y-auto">
+                <ul
+                  className="
+                    flex
+                    flex-col
+                    gap-1.5
+                    overflow-y-auto
+
+                    print:overflow-visible
+                    print:gap-1
+                  "
+                >
                   {cavFechadas.map((item, index) => (
                     <li
                       key={
                         item.id_ocorrencia ??
                         `${item.cavidade.number}-${index}`
                       }
-                      className="rounded-md bg-slate-200 px-2.5 py-1.5 text-xs sm:text-sm"
+                      className="
+                        rounded-md
+                        bg-slate-200
+                        px-2.5
+                        py-1.5
+                        text-xs
+
+                        sm:text-sm
+
+                        print:px-2
+                        print:py-1
+                        print:text-[8px]
+                      "
                     >
                       <p className="text-black-design">
                         <strong>
-                          Cav. {item.cavidade.number}
+                          {item.cavidade.number}
                         </strong>{" "}
                         —{" "}
                         <span className="text-gray-bold-design">
@@ -347,38 +697,118 @@ export default async function DetalhesMolde({
             </div>
           </div>
 
-          {/* ========================================
+          {/* ===================================================
               PARETO
-          ======================================== */}
+          =================================================== */}
 
-          <div className="min-w-0">
-            <div className="flex min-h-[150px] flex-col rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4 lg:h-full">
+          <div
+            className="
+              min-w-0
+              print-no-break
+            "
+          >
+            <div
+              className="
+                flex
+                min-h-[150px]
+                flex-col
+                rounded-xl
+                border
+                border-slate-200
+                bg-white
+                p-3
+                shadow-sm
 
-              <h3 className="mb-2 text-sm font-semibold text-black-design sm:text-base">
-                Principais Motivos de Bloqueio
+                sm:p-4
+
+                lg:h-full
+
+                print:min-h-0
+                print:h-auto
+                print:p-2
+                print:shadow-none
+              "
+            >
+              <h3
+                className="
+                  mb-2
+                  text-sm
+                  font-semibold
+                  text-black-design
+
+                  sm:text-base
+
+                  print:mb-1
+                  print:text-[10px]
+                "
+              >
+                Principais Motivos de Bloqueio - (classificação)
               </h3>
 
               {topDefeitos.length === 0 ? (
                 <div className="flex flex-1 items-center">
-                  <p className="text-xs text-gray-bold-design sm:text-sm">
+                  <p
+                    className="
+                      text-xs
+                      text-gray-bold-design
+
+                      sm:text-sm
+
+                      print:text-[8px]
+                    "
+                  >
                     Nenhum defeito registrado.
                   </p>
                 </div>
               ) : (
-                <ul className="flex flex-col gap-1.5">
+                <ul className="flex flex-col gap-1.5 print:gap-1">
                   {topDefeitos.map(([defeito, qtd]) => (
                     <li
                       key={defeito}
-                      className="flex items-center justify-between gap-2 rounded-md bg-slate-200 px-2.5 py-1.5"
+                      className="
+                        flex
+                        items-center
+                        justify-between
+                        gap-2
+                        rounded-md
+                        bg-slate-200
+                        px-2.5
+                        py-1.5
+
+                        print:px-2
+                        print:py-1
+                      "
                     >
                       <span
-                        className="min-w-0 truncate text-xs text-gray-bold-design sm:text-sm"
+                        className="
+                          min-w-0
+                          truncate
+                          text-xs
+                          text-gray-bold-design
+
+                          sm:text-sm
+
+                          print:text-[8px]
+                        "
                         title={defeito}
                       >
                         {defeito}
                       </span>
 
-                      <strong className="shrink-0 rounded-full  px-2 py-0.5 text-4 font-semibold text-red-600 sm:text-4">
+                      <strong
+                        className="
+                          shrink-0
+                          rounded-full
+                          px-2
+                          py-0.5
+                          text-[18px]
+                          font-semibold
+                          text-gray-600
+
+                          print:px-1
+                          print:text-[8px]
+                        "
+                      >
                         {qtd}x
                       </strong>
                     </li>
@@ -388,14 +818,13 @@ export default async function DetalhesMolde({
             </div>
           </div>
 
-          {/* ========================================
+          {/* ===================================================
               EXPORTAÇÃO
-          ======================================== */}
+          =================================================== */}
 
-            <div className="w-full ">
-              <ExportReportButton />
-            </div>
-          
+          <div className="w-full print:hidden">
+            <ExportReportButton />
+          </div>
         </section>
       </div>
     </main>

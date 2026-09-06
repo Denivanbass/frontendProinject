@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import style from './historico.module.css'
 import api from '@/service/api'
 import Link from 'next/link'
 
@@ -16,9 +15,9 @@ export interface OcorrenciaProps {
     id_colaborador: number
     nome: string
   }
-  defeito?: {                  // <--- Adicionado
+  defeito?: {
     id_defeito: number
-    nome?: string              // Ajuste conforme seu schema (ex: 'descricao' ou 'nome_defeito')
+    nome?: string
     descricao_defeito?: string
   }
   cavidade?: {
@@ -50,7 +49,9 @@ export default function HistoricoPage() {
   async function loadOcorrencias() {
     try {
       setLoading(true)
+
       const response = await api.get('/ocorrencias')
+
       setOcorrencias(response.data)
     } catch (err: any) {
       console.error(err)
@@ -65,10 +66,21 @@ export default function HistoricoPage() {
   }, [])
 
   const ocorrenciasFiltradas = ocorrencias.filter((item) => {
-    const codMolde = item.cavidade?.versao?.molde?.cod_molde?.toLowerCase() || ''
-    const versao = item.cavidade?.versao?.versao?.toLowerCase() || ''
-    const nomeColaborador = item.colaborador?.nome?.toLowerCase() || ''
-    const nomeDefeito = (item.defeito?.nome || item.defeito?.descricao_defeito || '').toLowerCase() // <--- Incluído na busca
+    const codMolde =
+      item.cavidade?.versao?.molde?.cod_molde?.toLowerCase() || ''
+
+    const versao =
+      item.cavidade?.versao?.versao?.toLowerCase() || ''
+
+    const nomeColaborador =
+      item.colaborador?.nome?.toLowerCase() || ''
+
+    const nomeDefeito = (
+      item.defeito?.nome ||
+      item.defeito?.descricao_defeito ||
+      ''
+    ).toLowerCase()
+
     const termoBusca = busca.toLowerCase()
 
     const atendeBusca =
@@ -87,99 +99,194 @@ export default function HistoricoPage() {
 
   function formatData(dataISO: string) {
     if (!dataISO) return '-'
-    const data = new Date(dataISO)
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(data)
+
+    // Pega somente a parte da data retornada pela API,
+    // evitando conversão de timezone.
+    const data = dataISO.split('T')[0]
+
+    const [ano, mes, dia] = data.split('-')
+
+    if (!ano || !mes || !dia) return '-'
+
+    return `${dia}/${mes}/${ano}`
   }
 
   return (
-    <main className={style.container}>
-      <div className={style.header}>
-        <div>
-          <Link href="/gestao" className={style.btn_back}>
-            ← Voltar para Gestão
-          </Link>
-          <h1 className={style.title}>Histórico de Ocorrências</h1>
+    <main className="mx-auto flex min-h-[calc(100dvh-140px)] w-full max-w-[1200px] flex-col px-3 py-5 sm:px-5 sm:py-7 lg:px-8 lg:py-10">
+      {/* Header */}
+      <header className="mb-5 sm:mb-6">
+        <Link
+          href="/gestao"
+          className="mb-2 inline-block text-xs font-medium text-gray-design transition-colors duration-200 hover:text-primary-design sm:text-sm"
+        >
+          ← Voltar para Gestão
+        </Link>
+
+        <h1 className="text-2xl font-bold tracking-tight text-black-design sm:text-3xl">
+          Histórico de Ocorrências
+        </h1>
+      </header>
+
+      {/* Erro */}
+      {errorMsg && (
+        <div className="mb-5 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-3 text-xs leading-relaxed text-red-400 sm:mb-6 sm:text-sm">
+          {errorMsg}
         </div>
-      </div>
+      )}
 
-      {errorMsg && <div className={style.error_banner}>{errorMsg}</div>}
-
-      <div className={style.filter_bar}>
+      {/* Filtros */}
+      <div className="mb-5 flex w-full flex-col gap-3 sm:mb-6 sm:flex-row sm:gap-4">
         <input
           type="text"
           placeholder="Buscar por molde, cavidade, defeito ou colaborador..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          className={style.input_search}
+          className="min-w-0 flex-1 rounded-lg border border-gray-border-design/30 bg-black-design px-3 py-2.5 text-xs text-white-design outline-none transition-colors placeholder:text-gray-design focus:border-primary-design sm:px-4 sm:py-3 sm:text-sm"
         />
 
         <select
-          value={filtroStatus}
-          onChange={(e) => setFiltroStatus(e.target.value)}
-          className={style.select_filter}
-        >
-          <option value="TODOS">Todos os Status</option>
-          <option value="ABERTA">Abertas</option>
-          <option value="FECHADA">Fechadas</option>
-        </select>
+  value={filtroStatus}
+  onChange={(e) => setFiltroStatus(e.target.value)}
+  className="w-full cursor-pointer rounded-lg border border-gray-border-design/30 bg-black-design px-3 py-2.5 text-xs text-white-design outline-none transition-colors focus:border-primary-design focus:ring-1 focus:ring-primary-design/20 sm:w-auto sm:min-w-[190px] sm:px-4 sm:py-3 sm:text-sm"
+>
+  <option
+    value="TODOS"
+    className="bg-black-design text-white-design"
+  >
+    Todos os Status
+  </option>
+
+  <option
+    value="ABERTA"
+    className="bg-black-design text-white-design hover:bg-amber-100"
+  >
+    Abertas
+  </option>
+
+  <option
+    value="FECHADA"
+    className="bg-black-design text-white-design"
+  >
+    Fechadas
+  </option>
+</select>
+
       </div>
 
+      {/* Loading */}
       {loading ? (
-        <p className={style.loading}>Carregando histórico...</p>
+        <p className="mt-10 text-center text-sm text-gray-design">
+          Carregando histórico...
+        </p>
       ) : ocorrenciasFiltradas.length === 0 ? (
-        <div className={style.empty_state}>
-          <h2>Nenhuma ocorrência encontrada.</h2>
-          <p>Tente alterar o filtro ou o termo de busca.</p>
+        <div className="rounded-2xl border border-gray-border-design/20 bg-black-design px-4 py-12 text-center shadow-lg shadow-black-design/20 sm:px-6 sm:py-16">
+          <h2 className="mb-2 text-lg font-semibold text-white-design sm:text-xl">
+            Nenhuma ocorrência encontrada.
+          </h2>
+
+          <p className="text-xs text-gray-design sm:text-sm">
+            Tente alterar o filtro ou o termo de busca.
+          </p>
         </div>
       ) : (
-        <div className={style.table_wrapper}>
-          <table className={style.table}>
+        <div className="w-full overflow-hidden rounded-xl border border-gray-border-design/20 bg-black-design shadow-lg shadow-black-design/20">
+          <table className="w-full table-fixed border-collapse text-left">
             <thead>
-              <tr>
-                <th>ID</th>
-                <th>Molde / Versão</th>
-                <th>Cavidade</th>
-                <th>Defeito</th>
-                <th>Colaborador</th>
-                <th>Status</th>
-                <th>Data do Apontamento</th>
+              <tr className="border-b border-gray-border-design/20 bg-gray-bold-design/20">
+                {/* ID */}
+                <th className="w-[7%] px-1 py-2.5 text-center text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  ID
+                </th>
+
+                {/* Molde */}
+                <th className="w-[17%] px-1 py-2.5 text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  Molde
+                </th>
+
+                {/* Cavidade */}
+                <th className="w-[9%] px-1 py-2.5 text-center text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  Cav.
+                </th>
+
+                {/* Defeito */}
+                <th className="w-[18%] px-1 py-2.5 text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  Defeito
+                </th>
+
+                {/* Colaborador */}
+                <th className="w-[18%] px-1 py-2.5 text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  <span className="sm:hidden">Colab.</span>
+                  <span className="hidden sm:inline">Colaborador</span>
+                </th>
+
+                {/* Status */}
+                <th className="w-[13%] px-1 py-2.5 text-center text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  Status
+                </th>
+
+                {/* Data */}
+                <th className="w-[18%] px-1 py-2.5 text-center text-[8px] font-semibold uppercase tracking-tight text-gray-design sm:px-2 sm:py-3 sm:text-[10px] md:px-3 md:py-4 md:text-xs">
+                  Data
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {ocorrenciasFiltradas.map((item) => (
-                <tr key={item.id_ocorrencia}>
-                  <td>#{item.id_ocorrencia}</td>
-                  <td className={style.molde_cell}>
-                    <strong>
+                <tr
+                  key={item.id_ocorrencia}
+                  className="border-b border-gray-border-design/10 transition-colors last:border-b-0 hover:bg-white/[0.02]"
+                >
+                  {/* ID */}
+                  <td className="break-words px-1 py-3 text-center text-[9px] leading-tight text-gray-design sm:px-2 sm:py-3.5 sm:text-[11px] md:px-3 md:py-4 md:text-sm">
+                    #{item.id_ocorrencia}
+                  </td>
+
+                  {/* Molde / Versão */}
+                  <td className="break-words px-1 py-3 text-[9px] leading-tight sm:px-2 sm:py-3.5 sm:text-[11px] md:px-3 md:py-4 md:text-sm">
+                    <strong className="font-semibold text-white-design">
                       {item.cavidade?.versao?.molde?.cod_molde || 'N/A'}
                     </strong>
-                    <span> - {item.cavidade?.versao?.versao || 'N/A'}</span>
+
+                    <span className="text-gray-design">
+                      {' '}
+                      - {item.cavidade?.versao?.versao || 'N/A'}
+                    </span>
                   </td>
-                  <td>Cavidade {item.cavidade?.number ?? '-'}</td>
 
-                  <td>
-                    {item.defeito?.descricao_defeito}
+                  {/* Cavidade */}
+                  <td className="px-1 py-3 text-center text-[9px] leading-tight text-gray-design sm:px-2 sm:py-3.5 sm:text-[11px] md:px-3 md:py-4 md:text-sm">
+                    {item.cavidade?.number ?? '-'}
                   </td>
 
-                  <td>{item.colaborador?.nome || `ID #${item.id_colaborador}`}</td>
+                  {/* Defeito */}
+                  <td className="break-words px-1 py-3 text-[9px] leading-tight text-gray-design sm:px-2 sm:py-3.5 sm:text-[11px] md:px-3 md:py-4 md:text-sm">
+                    {item.defeito?.descricao_defeito || '-'}
+                  </td>
 
-                  <td>
+                  {/* Colaborador */}
+                  <td className="break-words px-1 py-3 text-[9px] leading-tight text-gray-design sm:px-2 sm:py-3.5 sm:text-[11px] md:px-3 md:py-4 md:text-sm">
+                    {item.colaborador?.nome ||
+                      `ID #${item.id_colaborador}`}
+                  </td>
+
+                  {/* Status */}
+                  <td className="px-1 py-3 text-center sm:px-2 sm:py-3.5 md:px-3 md:py-4">
                     <span
-                      className={`${style.status_badge} ${item.status_ocorrencia.toLowerCase() === 'aberta'
-                          ? style.status_aberta
-                          : style.status_fechada
-                        }`}
+                      className={`inline-flex max-w-full items-center justify-center whitespace-nowrap rounded-full border px-1.5 py-1 text-[7px] font-semibold uppercase leading-none sm:px-2 sm:py-1.5 sm:text-[9px] md:px-2.5 md:text-xs ${
+                        item.status_ocorrencia.toLowerCase() === 'aberta'
+                          ? 'border-green-500/40 bg-green-500/15 text-green-400'
+                          : 'border-red-500/40 bg-red-500/15 text-red-400'
+                      }`}
                     >
                       {item.status_ocorrencia}
                     </span>
                   </td>
-                  <td>{formatData(item.created_at)}</td>
+
+                  {/* Data */}
+                  <td className="break-words px-1 py-3 text-center text-[9px] leading-tight text-gray-design sm:px-2 sm:py-3.5 sm:text-[11px] md:px-3 md:py-4 md:text-sm">
+                    {formatData(item.created_at)}
+                  </td>
                 </tr>
               ))}
             </tbody>
